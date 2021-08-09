@@ -6,7 +6,7 @@ const {
   checkAccountId
 } = require('./accounts-middleware')
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const accounts = await Account.getAll()
      res.json(accounts)
@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
  }
 })
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const account = await Account.getById(req.params.id)
       res.json(account)
@@ -24,7 +24,7 @@ router.get('/:id', (req, res, next) => {
   }
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
   checkAccountPayload,
 checkAccountNameUnique, 
   async (req, res, next) => {
@@ -36,7 +36,7 @@ checkAccountNameUnique,
 }}
 })
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   checkAccountPayload,
 checkAccountId,
 checkAccountNameUnique, 
@@ -49,7 +49,7 @@ checkAccountNameUnique,
 }
 }})
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   checkAccountId, 
   async (req, res, next) => {
     try {
@@ -60,7 +60,7 @@ router.delete('/:id', (req, res, next) => {
     }
 }})
 
-router.use((err, req, res, next) => { // eslint-disable-line
+router.use((err, req, res, next) => {
   router.use((err, req, res, next) => {
     res.status(err.status || 500).json({
       custom: 'somethings wrong',

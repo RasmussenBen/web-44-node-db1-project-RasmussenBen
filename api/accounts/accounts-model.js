@@ -1,39 +1,25 @@
 const db = require('../../data/db-config')
 
 const getAll = () => {
-  const accounts = await db('accounts')
-  return accounts
+  return db('accounts')
 }
 
 const getById = id => {
-  const account = await db('accounts')
-  .where('id', id).first()
-  return account
+  return db('accounts').where('id', id).first()
 }
 
-const create = account => {
-  const [ id ] = await db('accounts')
-    .insert({
-      name: account.name.trim(),
-      budget: account.budget
-    })
-   const newAccount = await getById(id)
-   return newAccount
+const create = async account => {
+  const [id] = await db('accounts').insert(account)
+  return getById(id)
 }
 
-const updateById = (id, account) => {
-  await db('accounts')
-      .where('id', id)
-      .update(account)
-     return getById(id)
+const updateById = async (id, account) => {
+  await db('accounts').where('id', id).update(account)
+  return getById(id)
 }
 
 const deleteById = id => {
-  const deletedAccount = await getById(id)
-  await db('accounts')
-    .where({ id })
-    .del()
-   return deletedAccount
+  return db('accounts').where('id', id).del()
 }
 
 module.exports = {
